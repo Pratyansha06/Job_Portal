@@ -23,7 +23,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-[#cac8d69c] min-h-screen">
       <Navbar />
       <Header />
       <Categories />

@@ -6,6 +6,8 @@ const initialState = {
   singleJob: null, // This will hold the job details when a user clicks on a job
   searchJobByText: "",
   allAppliedJobs: [], // This will hold
+  savedJobs: [],
+  savedJobIds: [],
   searchedQuery: "",
 };
 
@@ -28,6 +30,12 @@ const jobSlice = createSlice({
     setAllAppliedJobs(state, action) {
       state.allAppliedJobs = action.payload;
     },
+    setSavedJobs(state, action) {
+      state.savedJobs = action.payload;
+    },
+    setSavedJobIds(state, action) {
+      state.savedJobIds = action.payload;
+    },
     setSearchedQuery(state, action) {
       state.searchedQuery = action.payload;
     },
@@ -40,6 +48,8 @@ export const {
   setAllAdminJobs,
   setSearchJobByText,
   setAllAppliedJobs,
+  setSavedJobs,
+  setSavedJobIds,
   setSearchedQuery,
 } = jobSlice.actions;
 export default jobSlice.reducer;

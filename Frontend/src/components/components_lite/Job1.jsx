@@ -1,18 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { Bookmark } from "lucide-react";
+import { BookMarked } from "lucide-react";
+import axios from "axios";
+import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { SAVED_JOB_API_ENDPOINT } from "@/utils/data";
+import { setSavedJobIds } from "@/redux/jobSlice";
 
 const Job1 = ({ job }) => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.auth);
+  const { savedJobIds } = useSelector((store) => store.job);
+
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    const nextIsSaved = !!job?._id && !!savedJobIds?.includes(job?._id);
+    setIsSaved(nextIsSaved);
+  }, [savedJobIds, job?._id]);
 
   const daysAgoFunction = (mongodbTime) => {
     const createdAt = new Date(mongodbTime);
     const currentTime = new Date();
     const timeDifference = currentTime - createdAt;
     return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
+  };
+
+  const saveForLaterHandler = async () => {
+    if (!user?._id) {
+      toast.error("Please login to save for later.");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `${SAVED_JOB_API_ENDPOINT}/toggle/${job?._id}`,
+        {},
+        { withCredentials: true }
+      );
+      if (res.data?.success) {
+        const nextIsSaved = !!res.data?.isSaved;
+        setIsSaved(nextIsSaved);
+        const nextIds = nextIsSaved
+          ? Array.from(new Set([...(savedJobIds || []), job?._id]))
+          : (savedJobIds || []).filter((id) => id !== job?._id);
+        dispatch(setSavedJobIds(nextIds));
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message ||
+          "Unable to save job. Try again."
+      );
+    }
   };
 
   return (
@@ -23,8 +69,14 @@ const Job1 = ({ job }) => {
             ? "Today"
             : `${daysAgoFunction(job?.createdAt)} days ago`}
         </p>
-        <Button variant="outline" className="rounded-full" size="icon">
-          <Bookmark />
+        <Button
+          variant="outline"
+          className="rounded-full"
+          size="icon"
+          onClick={saveForLaterHandler}
+          title={isSaved ? "Remove Saved Job" : "Save Job"}
+        >
+          {isSaved ? <BookMarked /> : <Bookmark />}
         </Button>
       </div>
 
@@ -62,7 +114,12 @@ const Job1 = ({ job }) => {
         >
           Details
         </Button>
-        <Button className="bg-[#7209b7]">Save For Later</Button>
+        <Button
+          className={isSaved ? "bg-[#7209b7]/70 hover:bg-[#7209b7]/70" : "bg-[#7209b7]"}
+          onClick={saveForLaterHandler}
+        >
+          {isSaved ? "Saved" : "Save For Later"}
+        </Button>
       </div>
     </div>
   );

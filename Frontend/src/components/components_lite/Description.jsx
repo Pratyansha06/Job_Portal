@@ -19,7 +19,7 @@ const Description = () => {
   const { user } = useSelector((store) => store.auth);
 
   const isIntiallyApplied =
-    singleJob?.application?.some(
+    singleJob?.applications?.some(
       (application) => application.applicant === user?._id
     ) || false;
   const [isApplied, setIsApplied] = useState(isIntiallyApplied);

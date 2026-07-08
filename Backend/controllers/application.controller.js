@@ -1,5 +1,6 @@
 import { Application } from "../models/application.model.js";
 import { Job } from "../models/job.model.js";
+import { User } from "../models/user.model.js";
 
 export const applyJob = async (req, res) => {
   try {
@@ -10,6 +11,15 @@ export const applyJob = async (req, res) => {
         .status(400)
         .json({ message: "Invalid job id", success: false });
     }
+
+    const user = await User.findById(userId);
+    if (!user?.profile?.resume) {
+      return res.status(400).json({
+        message: "Please upload resume before applying.",
+        success: false,
+      });
+    }
+
     // check if the user already has applied for this job
     const existingApplication = await Application.findOne({
       job: jobId,

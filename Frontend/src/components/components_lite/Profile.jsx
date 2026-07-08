@@ -4,15 +4,12 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Contact, Mail, Pen } from "lucide-react";
 import { Badge } from "../ui/badge";
-import AppliedJob from "./AppliedJob";
 import EditProfileModal from "./EditProfileModal";
 import { useSelector } from "react-redux";
-import useGetAppliedJobs from "@/hooks/useGetAllAppliedJobs";
 
  
 const isResume = true;
 const Profile = () => {
-  useGetAppliedJobs();
   const [open, setOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
   return (
@@ -82,7 +79,7 @@ const Profile = () => {
                   className="text-blue-600 hover:underline cursor-pointer"
                 >
                   Download
-                  {user?.profile?.resumeOriginalName}
+                  {user?.profile?.resumeOriginalname}
                 </a>
               ) : (
                 <span>No Resume Found</span>
@@ -91,13 +88,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl">
-        <h1 className="text-lg my-5 font-bold">Applied Jobs</h1>
-
-        {/* Add Application Table */}
-        <AppliedJob />
-      </div>
-
       {/* Edit Profile Modal */}
       <EditProfileModal open={open} setOpen={setOpen} />
     </div>

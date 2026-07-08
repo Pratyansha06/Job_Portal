@@ -9,6 +9,8 @@ import TermsofService from "./components/components_lite/TermsofService.jsx";
 import Jobs from "./components/components_lite/Jobs.jsx";
 import Browse from "./components/components_lite/Browse.jsx";
 import Profile from "./components/components_lite/Profile.jsx";
+import AppliedPage from "./components/components_lite/AppliedPage.jsx";
+import SavedPage from "./components/components_lite/SavedPage.jsx";
 import Description from "./components/components_lite/Description.jsx";
 import Companies from "./components/admincomponent/Companies";
 import CompanyCreate from "./components/admincomponent/CompanyCreate";
@@ -36,6 +38,14 @@ const appRouter = createBrowserRouter([
   {
     path: "/Profile",
     element: <Profile />,
+  },
+  {
+    path: "/Applied",
+    element: <AppliedPage />,
+  },
+  {
+    path: "/Saved",
+    element: <SavedPage />,
   },
   {
     path: "/PrivacyPolicy",

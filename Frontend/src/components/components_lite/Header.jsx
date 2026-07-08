@@ -54,7 +54,7 @@ const Header = () => {
   
 
     <div>
-      <div className="text-center bg-gradient-to-r from-[#6A38C2] to-[#00A8E8] py-10 my-2">
+      <div className="text-center bg-gradient-to-r from-[#6A38C2] to-[#00A8E8] py-10">
         <div className="flex flex-col gap-5 my-10 text-white">
           <h2 className="text-5xl font-bold">
             Discover Your Next Career Opportunity
@@ -70,7 +70,7 @@ const Header = () => {
               type="text"
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Find Your Dream Job"
-              className="outline-none border-none w-full p-2"
+              className="outline-none border-none w-full p-2 text-black"
             />
             <Button onClick={searchjobHandler} className="rounded-r-full bg-purple-600 text-white hover:bg-purple-700 transition duration-300">
               <Search className="h-5 w-5" />

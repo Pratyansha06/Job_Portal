@@ -9,12 +9,12 @@ const Footer = () => {
         style={{
           textAlign: "center",
           padding: "20px",
-          backgroundColor: "#f1f1f1",
+          backgroundColor: "black",
         }}
       >
-        <p>© 2025. All rights reserved.</p>
+        <p className="text-white">© 2025. All rights reserved.</p>
       
-        <p>
+        <p className="text-white">
           <Link to={"/PrivacyPolicy"}>Privacy Policy </Link> |
           <Link to={"/TermsofService"}> Terms of Service</Link>
         </p>
